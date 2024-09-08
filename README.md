@@ -1,5 +1,39 @@
+# Task Management System
+
 ## Overview
 
-The Task Management System is a comprehensive solution designed to help users stay organized and on top of their tasks. Whether you're working individually or as part of a team, this system enables you to create, assign, and manage tasks effortlessly. With features like task categorization, deadline reminders, and real-time status updates, users can easily track their progress and prioritize work to meet deadlines efficiently.
+This Task Management System is a web-based application designed to help teams organize and manage their tasks effectively. The system provides functionalities to create, update, delete, and view tasks, along with basic user role management. The project is built using ASP.NET Core and Entity Framework for the backend, and HTML, CSS, JavaScript, and jQuery for the frontend.
 
-Built with a focus on simplicity and efficiency, this task manager ensures that every task is visible, manageable, and up-to-date, making it easier to enhance productivity and collaboration.
+## Features
+
+- **Task Management:**
+  - Create Task.
+  - Delete Task.
+  - Update Task.
+  - Show Task Details.
+  - Get All Tasks.
+  - Filter Task By Perority, and Status.
+  - Search About Task.
+  
+
+- **User Management:**
+  - Basic structure for managing users and roles (Admin, TeamLead, RegularUser).
+  - Login & Register with its validation.
+  - Authentication and authorization for users using jwt.
+  - Manage all users by admin
+  - Add Team By admin
+  
+
+- **Dockerizing My Application**
+  - Add docker file to my to make it dockerized.
+
+- **Comments and Attachments:**
+  - Add comments for a specefic task.
+  - Add attatchments for a specefic task..
+
+
+
+
+
+
+
