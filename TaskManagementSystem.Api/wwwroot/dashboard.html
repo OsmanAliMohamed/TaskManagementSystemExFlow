@@ -1,0 +1,227 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #333;
+            color: #fff;
+            padding: 15px 0;
+        }
+
+            header .container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                max-width: 1100px;
+                margin: 0 auto;
+                padding: 0 20px;
+            }
+
+            header h1 {
+                font-size: 24px;
+            }
+
+            header nav a {
+                color: white;
+                text-decoration: none;
+                padding: 10px 20px;
+                background: #4CAF50;
+                border-radius: 4px;
+            }
+
+                header nav a:hover {
+                    background: #45a049;
+                }
+
+        .content {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        h2 {
+            font-size: 32px;
+            color: #333;
+        }
+
+        .task-list {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+            .task-list th, .task-list td {
+                border: 1px solid #ddd;
+                padding: 10px;
+            }
+
+            .task-list th {
+                background-color: #f2f2f2;
+            }
+
+            .task-list td {
+                text-align: center;
+            }
+
+        .action-buttons button {
+            margin: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+
+        .create-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+
+        .delete-button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+        }
+
+        .update-button, .details-button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+        }
+
+        .create-task-form {
+            display: none;
+            margin-top: 20px;
+        }
+
+            .create-task-form input, .create-task-form button {
+                padding: 10px;
+                margin: 5px;
+            }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>Task Management System</h1>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="dashboard.html">Dashboard</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="content">
+        <h2>All Tasks</h2>
+
+        <button onclick="goToCreateTask()">Create Task</button>
+
+        <table class="task-list" id="task-list">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Due Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="task-list-body">
+                <!-- Tasks will be dynamically loaded here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function goToCreateTask() {
+            window.location.href = 'task.html'; // صفحة إنشاء المهام
+        }
+
+        // Navigate to the update task page with task ID
+        function goToUpdateTask(taskId) {
+            window.location.href = `task.html?id=${taskId}`; // صفحة تعديل المهام مع تمرير ID
+        }
+        // Fetch all tasks from the server and populate the table
+        function loadTasks() {
+            fetch('/api/Task/GetAll')
+                .then(response => response.json())
+                .then(data => {
+                    const taskListBody = document.getElementById('task-list-body');
+                    taskListBody.innerHTML = '';
+
+                    Array.from(data).forEach(task => {
+                        taskListBody.innerHTML += `
+                                <tr>
+                                    <td>${task.taskId}</td>
+                                    <td>${task.title}</td>
+                                    <td>${task.description}</td>
+                                    <td>${ConvertToTextPeriorty(task.priority)}</td>
+                                    <td>${ConvertToTextStatus(task.status)}</td>
+                                    <td>${new Date(task.dueDate).toLocaleDateString()}</td>
+                                    <td class="action-buttons">
+                                        <button class="update-button" onclick="goToUpdateTask(${task.taskId})">Update</button>
+                                        <button class="delete-button" onclick="deleteTask(${task.taskId})">Delete</button>
+                                        <button class="details-button" onclick="viewTaskDetails(${task.taskId})">Details</button>
+                                    </td>
+                                </tr>
+                            `;
+                    });
+                });
+        }
+
+        // Delete a task
+        function deleteTask(taskId) {
+            if (confirm('Are you sure you want to delete this task?')) {
+                fetch(`/api/task/${taskId}`, {
+                    method: 'DELETE'
+                }).then(response => {
+                    if (response.ok) {
+                        alert('Task deleted successfully!');
+                        loadTasks(); // Reload the tasks list
+                    }
+                });
+            }
+        }
+        function ConvertToTextStatus(status) {
+            if (status == 0) {
+                return 'ToDo';
+            }
+            else if (status == 1) {
+                return 'InProgress';
+            }
+            else return 'Completed';
+        }
+        function ConvertToTextPeriorty(Periorty) {
+            if (Periorty == 0) {
+                return 'Low';
+            }
+            else if (Periorty == 1) {
+                return 'Medium';
+            }
+            else return 'High';
+        }
+
+        
+
+        // View task details
+        function viewTaskDetails(taskId) {
+            window.location.href = `/details.html?id=${taskId}`;
+        }
+
+        // Load tasks when the page loads
+        document.addEventListener('DOMContentLoaded', loadTasks);
+    </script>
+
+</body>
+</html>
