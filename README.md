@@ -29,7 +29,9 @@ This Task Management System is a web-based application designed to help teams or
 
 - **Comments and Attachments:**
   - Add comments for a specefic task.
-  - Add attatchments for a specefic task..
+  - Add attatchments for a specefic task.
+- **Architectural patterns:**
+  - Using unit of work and repository pattern
 
 
 
