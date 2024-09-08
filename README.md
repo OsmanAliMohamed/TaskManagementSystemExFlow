@@ -25,7 +25,7 @@ This Task Management System is a web-based application designed to help teams or
   
 
 - **Dockerizing My Application**
-  - Add docker file to my to make it dockerized.
+  - Add docker file to my app to make it dockerized.
 
 - **Comments and Attachments:**
   - Add comments for a specefic task.
